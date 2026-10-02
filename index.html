@@ -1,0 +1,1061 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UD2 · Obligaciones laborales y fiscales · IB2301</title>
+<meta name="description" content="Material interactivo de la UD2 del módulo IB2301 Autoocupació i emprenedoria: sesiones, actividades autocorregibles, enlaces y vídeos.">
+<!--
+ ============ INSTRUCCIONES RÁPIDAS (profesor) ============
+ 1) Sube este archivo a un repositorio de GitHub como index.html y activa GitHub Pages (Settings > Pages).
+ 2) Para recibir un correo cuando el alumnado envíe una sesión, crea un flujo de Power Automate:
+    - Desencadenador: "Cuando se recibe una solicitud HTTP".
+    - Acción: "Analizar JSON" sobre el cuerpo (Body). Esquema: usa "Generar a partir de un ejemplo" con un envío de prueba.
+    - Acción: "Enviar un correo electrónico (V2)" a jpons@centredelamar.com con Asunto = asunto y Cuerpo = resumen.
+    - (Opcional) "Agregar una fila a una tabla" de Excel en SharePoint con alumno, grupo, sesion, nota y fecha.
+    - Copia la URL HTTP POST del desencadenador y pégala en CONFIG.WEBHOOK_URL (más abajo).
+ 3) Mientras WEBHOOK_URL esté vacía, la web ofrece al alumno enviar el resultado con su programa de correo.
+ Aviso: las respuestas correctas viajan dentro de la página; es material formativo, no una prueba evaluable.
+-->
+<style>
+:root{
+  --bg:#f4f7fa; --surface:#ffffff; --surface-2:#eef3f8; --ink:#14233a; --ink-2:#4a5b73; --line:#d9e2ec;
+  --brand:#0b5c8a; --brand-2:#0e7c86; --brand-ink:#ffffff; --accent:#e9a23b;
+  --ok:#17803d; --ok-bg:#e4f6ea; --bad:#b42318; --bad-bg:#fdecea; --warn-bg:#fff6e0; --warn:#8a5a00;
+  --shadow:0 1px 2px rgba(20,35,58,.06),0 6px 20px rgba(20,35,58,.07);
+  --radius:16px; --font:"Inter","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0c1624; --surface:#122035; --surface-2:#172a44; --ink:#e8eef6; --ink-2:#a9b8cc; --line:#25395a;
+    --brand:#4db3e6; --brand-2:#4fd1c5; --brand-ink:#06223a; --accent:#f2b95a;
+    --ok:#5bd68a; --ok-bg:#12331f; --bad:#ff8a80; --bad-bg:#3a1713; --warn-bg:#34290d; --warn:#f2c76b;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--brand)}
+h1,h2,h3,h4{line-height:1.25;margin:0 0 .5em}
+h2{font-size:1.45rem} h3{font-size:1.15rem} h4{font-size:1rem}
+p{margin:0 0 .9em}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+/* header */
+.hero{background:linear-gradient(135deg,#0a3d62 0%,#0b5c8a 55%,#0e7c86 100%);color:#fff;padding:28px 0 22px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero .tag{display:inline-block;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:4px 10px;border-radius:999px;margin-bottom:10px}
+.hero h1{font-size:clamp(1.5rem,4vw,2.3rem);margin:0 0 6px}
+.hero p{margin:0;opacity:.92;max-width:62ch}
+.who{position:absolute;right:16px;top:16px;z-index:2}
+.chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:999px;font:inherit;font-size:.85rem;cursor:pointer}
+.chip:hover{background:rgba(255,255,255,.26)}
+/* tabs */
+.tabs-bar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 0;scrollbar-width:thin}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:12px;font:inherit;font-size:.92rem;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;line-height:1.25;min-width:96px;transition:.15s}
+.tab small{color:var(--ink-2);font-size:.72rem}
+.tab:hover{border-color:var(--brand)}
+.tab[aria-selected="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.tab[aria-selected="true"] small{color:inherit;opacity:.85}
+.tab .done{color:var(--ok);font-weight:700}
+.tab[aria-selected="true"] .done{color:#c9ffd9}
+main{padding:22px 0 60px}
+.panel[hidden]{display:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:18px}
+.card h3{margin-top:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.pill{font-size:.78rem;background:var(--surface-2);border:1px solid var(--line);padding:3px 10px;border-radius:999px;color:var(--ink-2)}
+.pill.brand{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+ul.goals{padding-left:1.1em;margin:.3em 0}
+ul.goals li{margin:.2em 0}
+.callout{border-left:4px solid var(--accent);background:var(--warn-bg);color:var(--ink);padding:12px 14px;border-radius:0 12px 12px 0;margin:14px 0}
+.callout.info{border-color:var(--brand);background:var(--surface-2)}
+.callout b.t{display:block;margin-bottom:2px}
+.table-wrap{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface-2)}
+.sect-title{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:1.2rem}
+.sect-title::after{content:"";flex:1;height:1px;background:var(--line)}
+/* theory accordions */
+details.acc{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:10px 0;overflow:hidden}
+details.acc>summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details.acc>summary::-webkit-details-marker{display:none}
+details.acc>summary::after{content:"+";font-weight:700;color:var(--brand)}
+details.acc[open]>summary::after{content:"–"}
+details.acc>.body{padding:0 16px 14px}
+/* activities */
+.act{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin:16px 0;box-shadow:var(--shadow);overflow:hidden}
+.act-head{display:flex;gap:12px;align-items:center;padding:14px 18px;background:var(--surface-2);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.act-code{background:var(--brand);color:var(--brand-ink);font-weight:700;border-radius:10px;padding:4px 10px;font-size:.9rem}
+.act-head h4{margin:0;flex:1;min-width:200px}
+.badge{font-size:.74rem;padding:3px 10px;border-radius:999px;font-weight:600}
+.badge.auto{background:var(--ok-bg);color:var(--ok)}
+.badge.cls{background:var(--warn-bg);color:var(--warn)}
+.act-body{padding:16px 18px}
+.q{padding:12px 0;border-bottom:1px dashed var(--line)}
+.q:last-child{border-bottom:0}
+.q .qt{font-weight:600;margin-bottom:8px}
+.q .qn{color:var(--brand);margin-right:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin:6px 0;cursor:pointer;background:var(--bg)}
+.opt:hover{border-color:var(--brand)}
+.opt input{margin-top:.28em;accent-color:var(--brand)}
+select.sel{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);max-width:100%;width:100%}
+.q.ok .opt.chosen,.cell.ok select{border-color:var(--ok);background:var(--ok-bg)}
+.q.bad .opt.chosen,.cell.bad select{border-color:var(--bad);background:var(--bad-bg)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.fb{margin-top:8px;font-size:.92rem;padding:8px 12px;border-radius:10px}
+.fb.ok{background:var(--ok-bg);color:var(--ok)} .fb.bad{background:var(--bad-bg);color:var(--bad)}
+.fb b{display:block}
+.fb span{color:var(--ink)}
+fieldset{border:0;padding:0;margin:0}
+.gridtab td.cell select{min-width:150px}
+.cell.ok{outline:2px solid var(--ok);outline-offset:-2px}.cell.bad{outline:2px solid var(--bad);outline-offset:-2px}
+.cell .why{display:block;font-size:.8rem;margin-top:4px;color:var(--ink-2)}
+.submit-bar{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px;margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow)}
+.btn{font:inherit;font-weight:600;border:0;border-radius:12px;padding:11px 18px;cursor:pointer;background:var(--brand);color:var(--brand-ink);transition:.15s}
+.btn:hover{filter:brightness(1.08)} .btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.sec{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+.progress{flex:1;min-width:160px;font-size:.88rem;color:var(--ink-2)}
+.bar{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-top:4px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0;transition:.3s}
+.result{border-radius:var(--radius);padding:18px;margin-top:14px;background:var(--surface);border:2px solid var(--brand)}
+.result .big{font-size:2.2rem;font-weight:800;color:var(--brand);line-height:1}
+.result .big small{font-size:1rem;color:var(--ink-2);font-weight:600}
+.result ul{margin:.6em 0;padding-left:1.1em}
+.status{font-size:.9rem;margin:8px 0 0;padding:8px 12px;border-radius:10px}
+.status.ok{background:var(--ok-bg);color:var(--ok)}
+.status.warn{background:var(--warn-bg);color:var(--warn)}
+.status.bad{background:var(--bad-bg);color:var(--bad)}
+.cls-box{display:flex;gap:14px;align-items:flex-start}
+.cls-box .ico{font-size:1.6rem}
+/* resources */
+.links{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.links a.lk{display:block;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-decoration:none;color:var(--ink);height:100%;transition:.15s}
+.links a.lk:hover{border-color:var(--brand);transform:translateY(-2px)}
+.links .lt{font-weight:700;color:var(--brand);display:block}
+.links .ld{font-size:.88rem;color:var(--ink-2)}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.vcard{border:1px solid var(--line);background:var(--surface);border-radius:14px;overflow:hidden}
+.vcard .thumb{aspect-ratio:16/9;background:linear-gradient(135deg,#0a3d62,#0e7c86);display:grid;place-items:center;color:#fff;font-size:2.2rem}
+.vcard iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
+.vcard .vb{padding:12px 14px}
+.vcard .vb b{display:block;margin-bottom:4px}
+.vcard .vb small{color:var(--ink-2)}
+.vcard .vb a{display:inline-block;margin-top:8px;font-weight:600}
+/* dialog */
+dialog{border:0;border-radius:18px;padding:0;max-width:min(460px,92vw);width:100%;background:var(--surface);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(8,18,32,.6);backdrop-filter:blur(3px)}
+dialog form{padding:22px}
+label.f{display:block;font-weight:600;margin:12px 0 4px}
+input.t{width:100%;font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+input.t:focus,select.sel:focus,.btn:focus-visible,.tab:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 55%,transparent);outline-offset:2px}
+.err{color:var(--bad);font-size:.85rem;min-height:1.2em;margin-top:6px}
+.dlg-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding:22px 0;color:var(--ink-2);font-size:.85rem}
+.hint{color:var(--ink-2);font-size:.88rem}
+@media(max-width:620px){.who{position:static;display:block;margin:0 0 12px;text-align:left}.hero{padding-top:16px}}
+@media print{.tabs-bar,.submit-bar,.who{display:none}.panel[hidden]{display:block}}
+
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <button class="chip who" id="who" type="button" aria-label="Cambiar alumno o grupo">👤 Identifícate</button>
+    <span class="tag">IB2301 · Autoocupació i emprenedoria</span>
+    <h1>UD2 · Obligaciones laborales y fiscales</h1>
+    <p>Seis sesiones con ejemplos del sector náutico de Menorca, actividades que se corrigen solas y recursos para ir más lejos.</p>
+  </div>
+</header>
+<div class="tabs-bar"><div class="wrap"><div class="tabs" id="tabs" role="tablist" aria-label="Sesiones de la unidad"></div></div></div>
+<main class="wrap" id="app"></main>
+<footer><div class="wrap">Material formativo del módulo IB2301. Las cifras, tipos y plazos son de octubre de 2026 y cambian cada año: antes de usarlos en un trámite real, compruébalos en la fuente oficial.</div></footer>
+
+<dialog id="idDlg" aria-labelledby="idTitle">
+  <form id="idForm" method="dialog" novalidate>
+    <h3 id="idTitle">Antes de empezar</h3>
+    <p class="hint">Tu profesor recibirá el resultado de cada sesión con estos datos.</p>
+    <label class="f" for="idName">Nombre y apellidos</label>
+    <input class="t" id="idName" autocomplete="name" maxlength="80" required>
+    <label class="f" for="idGroup">Código del grupo</label>
+    <input class="t" id="idGroup" maxlength="20" autocomplete="off" required>
+    <div class="err" id="idErr" role="alert"></div>
+    <div class="dlg-actions"><button type="button" class="btn sec" id="idCancel">Ahora no</button><button class="btn" type="submit">Guardar y continuar</button></div>
+  </form>
+</dialog>
+<dialog id="cfDlg" aria-labelledby="cfTitle">
+  <form method="dialog" onsubmit="return false">
+    <h3 id="cfTitle"></h3><p id="cfText"></p>
+    <div class="dlg-actions"><button type="button" class="btn sec" id="cfNo">Cancelar</button><button type="button" class="btn" id="cfOk">Continuar</button></div>
+  </form>
+</dialog>
+<script>
+/* ===== CONTENIDO · UD2 · IB2301 Autoocupació i emprenedoria ===== */
+const SESSIONS = [
+/* ---------------------------------------------------------- SESIÓN 9 */
+{
+ id:'s9', n:9, block:'B04', title:'Ser autónomo: figuras, RETA y alta', ce:'2a',
+ goals:[
+  'Definir al trabajador autónomo y explicar qué es el RETA.',
+  'Distinguir autónomo individual, TRADE, autónomo societario y familiar colaborador.',
+  'Reconocer una situación de posible falso autónomo.',
+  'Explicar cuándo hay que darse de alta y por qué no se puede esperar.'],
+ theory:`
+ <details class="acc" open><summary>Quién es autónomo y qué es el RETA</summary><div class="body">
+  <p>El <b>trabajador autónomo</b> es la persona física que realiza de forma <b>habitual, personal y directa</b> una actividad económica a título lucrativo, sin contrato de trabajo. Puede tener personas empleadas. La ley presume que es habitual si es titular de un establecimiento abierto al público.</p>
+  <p>El <b>RETA</b> (Régimen Especial de Trabajadores Autónomos) es el régimen de la Seguridad Social que le corresponde. Para entrar hay que ser mayor de 18 años y ejercer la actividad en España. El alta es <b>obligatoria</b> y debe hacerse <b>antes de empezar</b> la actividad, en la sede electrónica de la Seguridad Social (Importass).</p>
+  <div class="callout info"><b class="t">Analogía</b>Estar de alta en el RETA es como tener la documentación de la embarcación en regla antes de salir a navegar. Puedes salir sin ella, pero si te paran, el problema es tuyo.</div>
+ </div></details>
+ <details class="acc"><summary>Las figuras del autónomo</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Figura</th><th>Rasgo que la define</th><th>Detalle útil</th></tr>
+   <tr><td><b>Autónomo individual</b></td><td>Trabaja por su cuenta con varios clientes.</td><td>Puede contratar personal.</td></tr>
+   <tr><td><b>TRADE</b></td><td>Obtiene el 75 % o más de sus ingresos de un solo cliente.</td><td>Contrato escrito y registrado. Solo puede contratar personal en casos tasados, como la conciliación.</td></tr>
+   <tr><td><b>Autónomo societario</b></td><td>Dirige o controla una sociedad mercantil.</td><td>Tiene una deducción de gastos genéricos distinta.</td></tr>
+   <tr><td><b>Familiar colaborador</b></td><td>Cónyuge o pariente hasta segundo grado que convive y trabaja habitualmente con el autónomo, sin contrato laboral.</td><td>Se da de alta en el RETA.</td></tr>
+   <tr><td><b>Socio de una sociedad civil o comunidad de bienes</b></td><td>Aporta trabajo personal y habitual al negocio común.</td><td>Se da de alta en el RETA a título personal.</td></tr>
+  </table></div>
+ </div></details>
+ <details class="acc"><summary>Falso autónomo: la señal de alarma</summary><div class="body">
+  <p>Un <b>falso autónomo</b> trabaja como un asalariado (horario fijo, órdenes, herramientas de la empresa) pero figura como autónomo. No es lo mismo que un TRADE: el TRADE es legal y tiene su propio contrato. El falso autónomo carece de los derechos de un empleado.</p>
+  <p>En el sector náutico el riesgo existe. Un mecánico que trabaja todo el año, en horario fijo, con las herramientas de un varadero y que solo factura a ese varadero debe revisar si es TRADE, asalariado o falso autónomo.</p>
+ </div></details>
+ <details class="acc"><summary>Dos casos del sector náutico (ficticios)</summary><div class="body">
+  <p><b>Marc Seguí</b>, técnico en mantenimiento, se establece en Maó con un servicio móvil de motores fueraborda. Trabaja con varios clientes en Maó, Ciutadella y Fornells: es autónomo individual y debe darse de alta antes de su primer trabajo.</p>
+  <p><b>Biel y Laura</b> forman una sociedad civil, <i>Mantenimiento Náutico Llevant S.C.</i>, en Ciutadella. Ambos trabajan a diario en el taller. Cada uno se da de alta en el RETA a título personal.</p>
+  <p><b>Para pensar:</b> ¿qué cambiaría si Marc trabajara solo para un astillero?</p>
+ </div></details>`,
+ activities:[
+  { id:'s9a1', code:'A1', kind:'auto', title:'Clasifica seis situaciones', ui:'select',
+    intro:'Para cada caso, elige la figura que mejor le corresponde.',
+    opts:['Autónomo individual','TRADE','Autónomo societario','Familiar colaborador','Posible falso autónomo'],
+    items:[
+     {q:'Un mecánico factura el 85 % de sus ingresos a un único chárter de Ciutadella y tiene contrato escrito registrado.',a:1,why:'Supera el 75 % de ingresos con un solo cliente y tiene contrato: es TRADE.'},
+     {q:'Una técnica trabaja con ocho clientes distintos de Maó y se ha dado de alta por su cuenta.',a:0,why:'Varios clientes y sin dependencia de uno solo: autónoma individual.'},
+     {q:'Un gerente dirige y controla una SL de varadero de la que es socio mayoritario.',a:2,why:'Dirige y controla una sociedad mercantil: autónomo societario.'},
+     {q:'Una hermana ayuda cada día en el taller familiar, convive con el titular y no tiene contrato.',a:3,why:'Pariente de segundo grado que convive y trabaja habitualmente sin contrato: familiar colaborador.'},
+     {q:'Un mecánico tiene horario fijo, usa las herramientas del varadero, recibe órdenes del encargado y solo factura a ese varadero sin contrato TRADE.',a:4,why:'Trabaja como un asalariado pero figura como autónomo: posible falso autónomo.'},
+     {q:'Un electricista naval con taller propio y varios clientes quiere contratar a un ayudante.',a:0,why:'El autónomo individual puede tener personas empleadas.'}
+    ]},
+  { id:'s9a2', code:'A2', kind:'aula', title:'Contrato de un patrón autónomo para una empresa náutica de Menorca',
+    desc:'En grupos, decidid si un patrón que presta servicio a una empresa náutica es TRADE y qué debe incluir su contrato. Pensad si puede contratar ayudantes. Se valora el razonamiento del grupo.'},
+  { id:'s9q', code:'Extra', kind:'auto', title:'Repaso rápido de la sesión', ui:'radio',
+    intro:'Cuatro preguntas para comprobar lo que has aprendido.',
+    items:[
+     {q:'¿Cuándo debe hacerse el alta en el RETA?',opts:['Antes de empezar la actividad','Cuando llegue la primera factura','A final de año','Cuando se cobre el primer pago'],a:0,why:'El alta es obligatoria y debe tramitarse antes de empezar.'},
+     {q:'Un TRADE obtiene al menos el… de sus ingresos de un solo cliente.',opts:['25 %','50 %','75 %','100 %'],a:2,why:'El umbral del TRADE es el 75 % de los ingresos de un único cliente.'},
+     {q:'¿Qué diferencia a un falso autónomo de un TRADE?',opts:['El falso autónomo tiene contrato propio','El falso autónomo trabaja como un asalariado pero figura como autónomo','El TRADE no cotiza','No hay ninguna diferencia'],a:1,why:'El TRADE es una figura legal con contrato. El falso autónomo oculta una relación laboral.'},
+     {q:'¿Cuáles son rasgos de la actividad del autónomo?',ui:'multi',opts:['Habitual','Personal y directa','Sujeta a un contrato de trabajo','A título lucrativo'],a:[0,1,3],why:'El autónomo trabaja sin contrato de trabajo.'}
+    ]}
+ ]
+},
+/* ---------------------------------------------------------- SESIÓN 10 */
+{
+ id:'s10', n:10, block:'B04', title:'Cotizar por ingresos reales y contratar', ce:'2a',
+ goals:[
+  'Explicar cómo se cotiza desde 2023 según los rendimientos reales.',
+  'Calcular una cuota a partir de una base de cotización y del tipo total.',
+  'Explicar la regularización anual y la tarifa plana.',
+  'Reconocer las obligaciones básicas de quien contrata a su primera persona.'],
+ theory:`
+ <details class="acc" open><summary>Cotización por rendimientos reales</summary><div class="body">
+  <p>Desde el 1 de enero de 2023 la cuota depende de lo que ganas. Al darte de alta comunicas una <b>previsión de rendimientos netos mensuales</b>. Con ella se te ubica en un tramo de una tabla oficial y eliges una <b>base de cotización</b> dentro de ese tramo.</p>
+  <p>El rendimiento neto se calcula con reglas del IRPF. Se aplica una deducción por gastos genéricos del <b>7 %</b> (menor para el autónomo societario). Esquema simplificado para clase:</p>
+  <div class="callout info"><b class="t">Esquema</b>rendimiento neto = ingresos − gastos deducibles; después se descuenta el 7 % genérico.</div>
+ </div></details>
+ <details class="acc"><summary>La cuota, la regularización y la tarifa plana</summary><div class="body">
+  <p><b>Cuota mensual = base de cotización × tipo total.</b> En 2026 el tipo total es del <b>31,5 %</b> (contingencias comunes, profesionales, cese de actividad, formación y MEI). Ejemplo con una base de 1.000 €: 1.000 × 31,5 % = <b>315 €</b> al mes.</p>
+  <p>Las bases que eliges son <b>provisionales</b>. Al acabar el ejercicio, la Seguridad Social cruza los datos con Hacienda: si cotizaste de más te devuelve la diferencia, y si cotizaste de menos te la reclama. Es la <b>regularización anual</b>.</p>
+  <p>La <b>tarifa plana</b> reduce la cuota a <b>80 € al mes</b> durante los primeros 12 meses de una primera alta. Puede prorrogarse otros 12 meses si los rendimientos son inferiores al salario mínimo. Comprueba en la sede de la Seguridad Social cómo se aplica el MEI.</p>
+  <p class="hint">Las bases mínimas de cada tramo cambian cada año. Usa siempre la tabla oficial vigente.</p>
+ </div></details>
+ <details class="acc"><summary>Primera persona contratada</summary><div class="body">
+  <p>Cuando un autónomo contrata, pasa a ser empresario y adquiere nuevas obligaciones:</p>
+  <ul class="goals">
+   <li>Inscribirse como empresario en la Seguridad Social y obtener su código de cuenta de cotización.</li>
+   <li>Dar de alta a la persona trabajadora <b>antes de que empiece</b> a trabajar.</li>
+   <li>Formalizar el contrato por escrito cuando la ley lo exige. Desde la reforma laboral de 2021 el contrato indefinido es la regla general y el temporal está limitado.</li>
+   <li>Entregar nómina, cotizar por ella y retener el IRPF (modelo 111, que verás en la sesión 14).</li>
+   <li>Aplicar el convenio colectivo que corresponda y cumplir la prevención de riesgos laborales.</li>
+  </ul>
+  <p class="hint">Contrasta estos puntos con la sede de la Seguridad Social antes de contratar.</p>
+ </div></details>
+ <details class="acc"><summary>Ejemplo: Marc Seguí calcula su cuota (caso ficticio)</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Paso</th><th>Cálculo</th><th>Resultado</th></tr>
+   <tr><td>Rendimiento antes de deducción</td><td>2.500 − 800</td><td>1.700 €</td></tr>
+   <tr><td>Deducción genérica del 7 %</td><td>1.700 × 7 %</td><td>119 €</td></tr>
+   <tr><td>Rendimiento neto computable</td><td>1.700 − 119</td><td>1.581 €</td></tr>
+   <tr><td>Cuota sin tarifa plana (base de ejemplo 1.000 €)</td><td>1.000 × 31,5 %</td><td>315 €</td></tr>
+   <tr><td>Ahorro con tarifa plana en 12 meses</td><td>12 × (315 − 80)</td><td>2.820 €</td></tr>
+  </table></div>
+  <p><b>Para pensar:</b> ¿qué ocurre si en el segundo año factura mucho más de lo previsto?</p>
+ </div></details>`,
+ activities:[
+  { id:'s10a1', code:'A1', kind:'auto', title:'Test de cotización', ui:'radio',
+    intro:'Cinco preguntas sobre cuotas, regularización y tarifa plana.',
+    items:[
+     {q:'Desde 2023 la cuota de autónomos depende de…',opts:['Un importe fijo igual para todos','Los rendimientos reales','El número de clientes','La edad del autónomo'],a:1,why:'La cotización se basa en los rendimientos netos reales.'},
+     {q:'Con una base de 1.200 € y un tipo total del 31,5 %, la cuota mensual es…',opts:['120 €','31,5 €','378 €','1.231,5 €'],a:2,why:'1.200 × 31,5 % = 378 €.'},
+     {q:'Cotizaste de más y tus rendimientos reales fueron menores. La Seguridad Social…',opts:['Te devuelve la diferencia tras la regularización','No puede devolverte nada','Te sanciona','Te sube la base al año siguiente'],a:0,why:'La regularización devuelve lo cotizado de más o reclama lo cotizado de menos.'},
+     {q:'La tarifa plana reduce la cuota a… durante los primeros 12 meses de una primera alta.',opts:['30 €','80 €','150 €','200 €'],a:1,why:'La cuota reducida es de 80 € al mes.'},
+     {q:'Una cuota de 315 € sin tarifa plana y de 80 € con ella supone un ahorro anual de…',opts:['235 €','1.410 €','2.820 €','3.780 €'],a:2,why:'12 × (315 − 80) = 2.820 €.'}
+    ]},
+  { id:'s10a2', code:'A2', kind:'auto', title:'¿Qué hay que hacer al contratar?', ui:'radio',
+    intro:'Una pregunta de varias respuestas sobre la primera contratación.',
+    items:[
+     {q:'Marc quiere contratar a un ayudante en temporada alta. ¿Cuáles de estas obligaciones tiene?',ui:'multi',opts:['Inscribirse como empresario en la Seguridad Social','Dar de alta al ayudante antes de que empiece','Entregar nómina y cotizar por ella','Esperar a la primera factura para hacer el alta','Aplicar el convenio colectivo que corresponda'],a:[0,1,2,4],why:'El alta del trabajador debe hacerse antes de que empiece, no cuando llegue una factura.'}
+    ]},
+  { id:'s10a3', code:'A3', kind:'classroom', title:'Cálculo de la cuota de una autónoma náutica',
+    desc:'Una autónoma náutica factura 2.500 € al mes y tiene gastos deducibles de 800 €. Entrega por Classroom el cálculo en una página.',
+    points:['Calcula su rendimiento neto computable con el esquema simplificado.','Busca en la tabla oficial vigente el tramo que le corresponde.','Calcula la cuota con una base dentro del tramo y un tipo del 31,5 %.','Calcula cuánto ahorraría con tarifa plana en su primer año.']},
+  { id:'s10q', code:'Autoevaluación B04', kind:'auto', title:'Autoevaluación del bloque B04', ui:'radio',
+    intro:'Cinco preguntas de todo el bloque.',
+    items:[
+     {q:'¿Qué es el RETA?',opts:['El régimen de la Seguridad Social de los autónomos','Un impuesto local','Un registro del ayuntamiento','Un tipo de contrato laboral'],a:0,why:'El RETA es el Régimen Especial de Trabajadores Autónomos de la Seguridad Social.'},
+     {q:'Un mecánico factura el 80 % de sus ingresos a un único cliente. Es…',opts:['Autónomo individual','TRADE','Falso autónomo siempre','Asalariado'],a:1,why:'Supera el 75 % con un solo cliente.'},
+     {q:'La deducción genérica por gastos del 7 % se aplica para…',opts:['Calcular el rendimiento neto computable','Calcular el IVA','Calcular la retención del alquiler','Calcular el modelo 347'],a:0,why:'Sirve para obtener el rendimiento neto computable de la cotización.'},
+     {q:'La regularización anual la hace…',opts:['El propio autónomo','El ayuntamiento','La Seguridad Social con datos de Hacienda','El banco'],a:2,why:'La Seguridad Social cruza sus datos con los de la Agencia Tributaria.'},
+     {q:'La tarifa plana puede prorrogarse otros 12 meses si…',opts:['El autónomo contrata personal','Los rendimientos son inferiores al salario mínimo','El autónomo cambia de actividad','No se presenta ningún modelo'],a:1,why:'La prórroga depende de que los rendimientos estén por debajo del salario mínimo.'}
+    ]}
+ ]
+},
+
+/* ---------------------------------------------------------- SESIÓN 11 */
+{
+ id:'s11', n:11, block:'B05', title:'Abrir el negocio: trámites de constitución', ce:'2b',
+ goals:[
+  'Ordenar los trámites de constitución de un autónomo y de una sociedad.',
+  'Explicar qué son el modelo 036/037, el IAE, el DUE, CIRCE y los PAE.',
+  'Saber qué se presenta en el ayuntamiento para abrir un taller o varadero.'],
+ theory:`
+ <details class="acc" open><summary>Los trámites según la forma jurídica</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Orden</th><th>Autónomo</th><th>Sociedad limitada</th><th>Sociedad civil</th></tr>
+   <tr><td>1</td><td>Elegir la actividad y su epígrafe del IAE</td><td>Certificación negativa de denominación (Registro Mercantil Central)</td><td>Contrato privado entre los socios</td></tr>
+   <tr><td>2</td><td>Declaración censal (036 o 037)</td><td>Escritura ante notario, con capital desde 1 €</td><td>Solicitar el NIF y presentar el 036</td></tr>
+   <tr><td>3</td><td>Alta en el RETA</td><td>Inscripción en el Registro Mercantil</td><td>Alta de los socios en el RETA</td></tr>
+   <tr><td>4</td><td>Declaración responsable o licencia municipal</td><td>NIF definitivo y declaración censal (036)</td><td>Declaración responsable o licencia municipal</td></tr>
+   <tr><td>5</td><td>Alta de empleados, si los hay</td><td>Alta de socios y empleados</td><td>Alta de empleados, si los hay</td></tr>
+  </table></div>
+  <p>La tramitación puede hacerse de forma telemática con el <b>DUE</b> (Documento Único Electrónico) a través de <b>CIRCE</b>, en un <b>PAE</b> (Punto de Atención al Emprendedor). Así se evita ir ventanilla por ventanilla.</p>
+ </div></details>
+ <details class="acc"><summary>Modelo 036/037, NIF e IAE</summary><div class="body">
+  <p>La <b>declaración censal</b> (modelos 036 y 037) comunica a la Agencia Tributaria el alta, la modificación o la baja de una actividad. El 037 es la versión simplificada para personas físicas. No es la declaración de la Renta (modelo 100): esa se presenta cada año.</p>
+  <p>El <b>IAE</b> clasifica la actividad por epígrafes. Las personas físicas están exentas de pagarlo. Las sociedades y otras entidades solo pagan si su cifra de negocios es de 1.000.000 € o más. Exento no significa que no se declare: el epígrafe se indica en el alta.</p>
+  <p>Para un taller de mantenimiento de embarcaciones, el epígrafe 372.1 describe los servicios de reparación y mantenimiento de buques y embarcaciones. Confirma con la AEAT el epígrafe exacto de tu actividad.</p>
+  <p>Las sociedades civiles y comunidades de bienes reciben un NIF que empieza por J o E.</p>
+ </div></details>
+ <details class="acc"><summary>El ayuntamiento</summary><div class="body">
+  <p>Para abrir un taller, nave o varadero hay que presentar en el ayuntamiento (Maó, Ciutadella, Alaior, Es Castell...) una <b>declaración responsable</b> o solicitar licencia. Cada ayuntamiento tiene sus modelos y ordenanzas: consulta el de tu municipio.</p>
+  <div class="callout info"><b class="t">Consejo</b>Pregunta al ayuntamiento antes de firmar el alquiler de un local. No todos los locales admiten una actividad de taller.</div>
+ </div></details>
+ <details class="acc"><summary>Ejemplo: Varadero Levante S.L. (caso ficticio)</summary><div class="body">
+  <p>Tres técnicos quieren crear un varadero en el polígono de Maó para invernaje, antifouling y reparación de fibra.</p>
+  <ol class="goals">
+   <li>Piden la certificación negativa de denominación al Registro Mercantil Central.</li>
+   <li>Aportan 3.000 € de capital, aunque el mínimo legal es de 1 €.</li>
+   <li>Acuden a un PAE, rellenan el DUE y se envía a notaría y a la AEAT por CIRCE.</li>
+   <li>Presentan el modelo 036 e indican el epígrafe de actividad.</li>
+   <li>Presentan la declaración responsable en el Ayuntamiento de Maó.</li>
+  </ol>
+  <p><b>Para pensar:</b> ¿qué trámites son comunes a un autónomo, una SL y una sociedad civil?</p>
+ </div></details>`,
+ activities:[
+  { id:'s11a1', code:'A1', kind:'auto', title:'Ordena los trámites de una SL', ui:'grid',
+    intro:'Asigna a cada trámite su orden de realización (1º es el primero).',
+    grid:{
+     cols:[{name:'Orden',opts:['1º','2º','3º','4º','5º']}],
+     rows:[
+      {label:'Certificación negativa de denominación',a:[0]},
+      {label:'Escritura ante notario',a:[1]},
+      {label:'Inscripción en el Registro Mercantil',a:[2]},
+      {label:'Declaración censal con el NIF definitivo',a:[3]},
+      {label:'Declaración responsable en el ayuntamiento',a:[4]}
+     ]},
+    extra:[
+     {q:'¿Qué agiliza la tramitación telemática de una empresa?',opts:['El DUE y CIRCE en un PAE','Presentar todo en papel','Acudir a cada administración por separado','Esperar la licencia'],a:0,why:'El DUE unifica los trámites y se envía por CIRCE desde un PAE.'}
+    ]},
+  { id:'s11a2', code:'A2', kind:'auto', title:'¿Dónde se hace cada trámite?', ui:'select',
+    intro:'Elige dónde se realiza cada trámite.',
+    opts:['Agencia Tributaria','Seguridad Social','Ayuntamiento','Registro Mercantil','Notaría'],
+    items:[
+     {q:'Presentar el modelo 036 o 037.',a:0,why:'La declaración censal se presenta ante la Agencia Tributaria.'},
+     {q:'Darse de alta en el RETA.',a:1,why:'El alta en el RETA se tramita en la Seguridad Social.'},
+     {q:'Presentar la declaración responsable para abrir un taller.',a:2,why:'La declaración responsable de actividad se presenta en el ayuntamiento.'},
+     {q:'Inscribir una sociedad limitada.',a:3,why:'Las sociedades mercantiles se inscriben en el Registro Mercantil.'},
+     {q:'Firmar la escritura de constitución de una SL.',a:4,why:'La escritura se otorga ante notario.'}
+    ]},
+  { id:'s11a3', code:'A3', kind:'aula', title:'Rellena el modelo 037 de un electricista naval',
+    desc:'Un electricista naval autónomo inicia actividad en Ciutadella. Simula los datos básicos: identificación, domicilio, actividad, epígrafe y tipo de IVA e IRPF. Se comenta en clase.'},
+  { id:'s11q', code:'Extra', kind:'auto', title:'Repaso rápido de la sesión', ui:'radio',
+    intro:'Cuatro preguntas para comprobar lo que has aprendido.',
+    items:[
+     {q:'El modelo 036/037 sirve para…',opts:['Declarar la Renta cada año','Comunicar el alta, modificación o baja de una actividad','Pagar el IVA','Darse de alta en el RETA'],a:1,why:'Es la declaración censal. La Renta es el modelo 100.'},
+     {q:'Una persona física que se da de alta como autónoma…',opts:['Paga siempre el IAE','Está exenta del IAE pero indica el epígrafe','No declara actividad','Paga el IAE solo en Menorca'],a:1,why:'Las personas físicas están exentas del IAE, pero el epígrafe se declara.'},
+     {q:'Capital mínimo de una SL tras la Ley 18/2022:',opts:['1 €','3.000 €','60.000 €','10.000 €'],a:0,why:'La Ley 18/2022 fijó el capital mínimo de la SL en 1 €.'},
+     {q:'La declaración responsable para abrir un taller se presenta…',opts:['Después de empezar a trabajar','Antes de empezar la actividad','Solo si el ayuntamiento lo pide dos años después','En la Seguridad Social'],a:1,why:'Debe presentarse antes de iniciar la actividad.'}
+    ]}
+ ]
+},
+/* ---------------------------------------------------------- SESIÓN 12 */
+{
+ id:'s12', n:12, block:'B05', title:'El sistema tributario y los principales tributos', ce:'2e',
+ goals:[
+  'Explicar para qué sirven los tributos.',
+  'Distinguir impuestos, tasas y contribuciones especiales.',
+  'Distinguir impuestos directos e indirectos.',
+  'Reconocer qué administración cobra cada tributo principal.'],
+ theory:`
+ <details class="acc" open><summary>Para qué sirven los tributos</summary><div class="body">
+  <p>Los tributos financian los servicios públicos: sanidad, educación, carreteras, puertos. La Constitución establece que todos contribuimos según nuestra capacidad económica.</p>
+  <div class="table-wrap"><table>
+   <tr><th>Tipo</th><th>Se paga por...</th><th>Ejemplo en un negocio náutico</th></tr>
+   <tr><td><b>Impuesto</b></td><td>Una capacidad económica (renta, consumo, patrimonio)</td><td>IVA de una reparación</td></tr>
+   <tr><td><b>Tasa</b></td><td>Un servicio o uso público concreto</td><td>Tasa de basuras de la nave</td></tr>
+   <tr><td><b>Contribución especial</b></td><td>Un beneficio por una obra pública</td><td>Obra de mejora en la zona del puerto</td></tr>
+  </table></div>
+ </div></details>
+ <details class="acc"><summary>Los principales tributos</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Tributo</th><th>Directo o indirecto</th><th>Quién lo cobra</th><th>Qué grava</th></tr>
+   <tr><td><b>IRPF</b></td><td>Directo</td><td>Estado (AEAT)</td><td>Renta de las personas físicas, incluida la de su actividad</td></tr>
+   <tr><td><b>Impuesto sobre Sociedades</b></td><td>Directo</td><td>Estado (AEAT)</td><td>Beneficio de las sociedades</td></tr>
+   <tr><td><b>IVA</b></td><td>Indirecto</td><td>Estado (AEAT)</td><td>Consumo de bienes y servicios</td></tr>
+   <tr><td><b>IAE</b></td><td>Directo</td><td>Ayuntamiento</td><td>Ejercer una actividad económica</td></tr>
+   <tr><td><b>IBI</b></td><td>Directo</td><td>Ayuntamiento</td><td>Propiedad de bienes inmuebles</td></tr>
+  </table></div>
+  <p>Los <b>impuestos directos</b> gravan la renta o el patrimonio. Los <b>indirectos</b> gravan el consumo o ciertas operaciones.</p>
+ </div></details>
+ <details class="acc"><summary>Cómo tributa la actividad de una persona física</summary><div class="body">
+  <p>Las personas físicas tributan por su actividad en el IRPF. Pueden calcular el rendimiento por <b>estimación directa simplificada</b> (ingresos menos gastos) o por <b>estimación objetiva</b> (módulos), que solo existe para actividades concretas fijadas por orden ministerial. Renunciar a una modalidad para una actividad suele alcanzar a las demás del mismo contribuyente.</p>
+  <p>Las sociedades mercantiles tributan por el Impuesto sobre Sociedades. Lo verás con detalle en la sesión 13.</p>
+ </div></details>
+ <details class="acc"><summary>Mantenimiento Náutico Llevant S.C. (caso ficticio)</summary><div class="body">
+  <p>Biel y Laura firman un contrato privado de sociedad civil, solicitan el NIF, presentan el modelo 036 y declaran la actividad en el ayuntamiento de Ciutadella. Como la sociedad tiene <b>objeto mercantil</b>, tributa en el Impuesto sobre Sociedades.</p>
+  <div class="callout info"><b class="t">Ojo</b>Una sociedad civil sin objeto mercantil o una comunidad de bienes tributan por atribución de rentas: cada socio paga en su IRPF.</div>
+  <p><b>Para pensar:</b> ¿por qué un negocio con riesgo de dañar embarcaciones valiosas podría preferir una SL a una sociedad civil?</p>
+ </div></details>`,
+ activities:[
+  { id:'s12a1', code:'A1', kind:'auto', title:'Clasifica los principales tributos', ui:'grid',
+    intro:'Para cada tributo, indica si es directo o indirecto y qué administración lo cobra.',
+    grid:{
+     cols:[{name:'Tipo',opts:['Directo','Indirecto']},{name:'Lo cobra',opts:['Estado (AEAT)','Ayuntamiento']}],
+     rows:[
+      {label:'IRPF',a:[0,0]},
+      {label:'Impuesto sobre Sociedades',a:[0,0]},
+      {label:'IVA',a:[1,0]},
+      {label:'IAE',a:[0,1]},
+      {label:'IBI',a:[0,1]}
+     ]},
+    extra:[
+     {q:'La tasa de basuras de una nave se paga por…',opts:['Una capacidad económica','Un servicio público concreto','Una obra pública que beneficia a la zona','Tener un establecimiento abierto'],a:1,why:'Las tasas se pagan por un servicio o uso público concreto.'}
+    ]},
+  { id:'s12a2', code:'A2', kind:'auto', title:'Test del sistema tributario', ui:'radio',
+    intro:'Cuatro preguntas sobre tributos y regímenes del IRPF.',
+    items:[
+     {q:'El IVA es un impuesto…',opts:['Directo','Indirecto','Una tasa','Una contribución especial'],a:1,why:'Grava el consumo: es indirecto.'},
+     {q:'La estimación objetiva (módulos) solo está disponible para…',opts:['Cualquier actividad','Actividades fijadas por orden ministerial','Las sociedades limitadas','Las comunidades de bienes de más de tres socios'],a:1,why:'Solo existe para actividades concretas fijadas por orden ministerial.'},
+     {q:'La sociedad civil con objeto mercantil tributa en…',opts:['El IRPF de cada socio','El Impuesto sobre Sociedades','El IBI','Ningún impuesto'],a:1,why:'Si la sociedad civil tiene objeto mercantil, es contribuyente del Impuesto sobre Sociedades.'},
+     {q:'La comunidad de bienes tributa…',opts:['En el Impuesto sobre Sociedades','Por atribución de rentas: cada comunero en su IRPF','Solo en el IAE','No tributa'],a:1,why:'Es una entidad en régimen de atribución de rentas.'}
+    ]},
+  { id:'s12a3', code:'A3', kind:'classroom', title:'Autónomo o SL para un varadero de Fornells',
+    desc:'Compara las dos formas jurídicas para gestionar un varadero con alto riesgo de responsabilidad civil. Entrega por Classroom una página.',
+    points:['Compara la responsabilidad patrimonial de cada forma.','Compara los trámites de constitución.','Compara cómo tributa el beneficio en cada caso.','Concluye con una recomendación razonada.']},
+  { id:'s12q', code:'Autoevaluación B05', kind:'auto', title:'Autoevaluación del bloque B05', ui:'radio',
+    intro:'Cinco preguntas de todo el bloque.',
+    items:[
+     {q:'El IAE lo cobra…',opts:['La Agencia Tributaria','El ayuntamiento','La Seguridad Social','El Registro Mercantil'],a:1,why:'El IAE es un tributo local.'},
+     {q:'¿Qué es el DUE?',opts:['Un impuesto','Un formulario único electrónico para varios trámites','Un tipo de licencia','Una cuota de la Seguridad Social'],a:1,why:'El Documento Único Electrónico unifica comunicaciones a varias administraciones.'},
+     {q:'Estar exento del IAE significa…',opts:['No tener que indicar el epígrafe','No pagar la cuota, pero sí indicar el epígrafe','Estar fuera del censo','No tributar por IVA'],a:1,why:'La exención afecta al pago, no a la declaración del epígrafe.'},
+     {q:'Una persona que abre un taller como autónoma, ¿qué presenta en el ayuntamiento?',opts:['La declaración de la Renta','Una declaración responsable o solicita licencia','El modelo 303','El alta en el RETA'],a:1,why:'Es el trámite municipal para abrir una actividad.'},
+     {q:'Los impuestos directos gravan…',opts:['El consumo','La renta o el patrimonio','Solo las herencias','Solo las tasas'],a:1,why:'Los indirectos gravan el consumo; los directos, la renta o el patrimonio.'}
+    ]}
+ ]
+},
+
+/* ---------------------------------------------------------- SESIÓN 13 */
+{
+ id:'s13', n:13, block:'B06', title:'Tributación por forma jurídica, IVA y facturas', ce:'2c',
+ goals:[
+  'Comparar cómo tributa el autónomo, la comunidad de bienes, la sociedad civil y la SL.',
+  'Explicar el mecanismo del IVA: repercutido, soportado y resultado.',
+  'Distinguir factura ordinaria y simplificada.',
+  'Conocer el calendario de Veri*Factu.'],
+ theory:`
+ <details class="acc" open><summary>Cómo tributa cada forma jurídica</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Forma</th><th>Quién paga el impuesto sobre el beneficio</th><th>Impuesto</th><th>Pagos a cuenta</th></tr>
+   <tr><td><b>Autónomo</b></td><td>La persona</td><td>IRPF, escala progresiva</td><td>Modelo 130 trimestral (131 en módulos)</td></tr>
+   <tr><td><b>Comunidad de bienes</b></td><td>Cada comunero, sobre su parte</td><td>IRPF (atribución de rentas, modelo 184 informativo)</td><td>Cada socio, según su caso</td></tr>
+   <tr><td><b>Sociedad civil sin objeto mercantil</b></td><td>Cada socio</td><td>IRPF (atribución de rentas)</td><td>Cada socio, según su caso</td></tr>
+   <tr><td><b>Sociedad civil con objeto mercantil</b></td><td>La sociedad</td><td>Impuesto sobre Sociedades</td><td>Modelo 202 en abril, octubre y diciembre</td></tr>
+   <tr><td><b>Sociedad limitada</b></td><td>La sociedad</td><td>Impuesto sobre Sociedades</td><td>Modelo 202 en abril, octubre y diciembre</td></tr>
+  </table></div>
+  <p>El tipo general del Impuesto sobre Sociedades es del <b>25 %</b>. Existen tipos reducidos para microempresas, pymes y empresas de nueva creación. Contrástalos en la sede de la AEAT antes de usarlos.</p>
+ </div></details>
+ <details class="acc"><summary>El IVA: repercutido, soportado y resultado</summary><div class="body">
+  <p>El IVA grava el consumo. El empresario lo cobra al cliente (<b>IVA repercutido</b>) y lo ingresa en Hacienda tras restar el que ha pagado a sus proveedores (<b>IVA soportado deducible</b>).</p>
+  <div class="callout info"><b class="t">Fórmula</b>resultado de IVA = IVA repercutido − IVA soportado deducible.</div>
+  <p>El tipo general es del <b>21 %</b>: reparaciones, recambios, mantenimiento e invernaje de embarcaciones. Si el resultado es positivo se ingresa. Si es negativo se compensa o se devuelve según el caso. El IVA repercutido <b>no es un ingreso tuyo</b>: es una deuda con Hacienda.</p>
+ </div></details>
+ <details class="acc"><summary>La factura: ordinaria y simplificada</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Aspecto</th><th>Factura ordinaria</th><th>Factura simplificada</th></tr>
+   <tr><td>Datos del cliente</td><td>NIF, nombre y domicilio</td><td>No son necesarios en general</td></tr>
+   <tr><td>Desglose de IVA</td><td>Base, tipo y cuota</td><td>Basta indicar el tipo</td></tr>
+   <tr><td>Límite general</td><td>Sin límite</td><td>400 € con IVA incluido (3.000 € en supuestos concretos)</td></tr>
+   <tr><td>Cuándo usarla</td><td>Siempre que el cliente sea empresa o la pida</td><td>Ventas menores a particulares</td></tr>
+  </table></div>
+  <p>Si la factura es para una empresa o un profesional, debe expedirse antes del <b>día 16 del mes siguiente</b> al de la operación.</p>
+  <p><b>Veri*Factu.</b> Obliga a que los programas de facturación no puedan alterar ni borrar registros. Se aplazó en diciembre de 2025: según las fuentes consultadas, se aplica desde el 1 de enero de 2027 a los contribuyentes del Impuesto sobre Sociedades y desde el 1 de julio de 2027 al resto, incluidos los autónomos. <b>Comprueba la fecha vigente en la AEAT.</b></p>
+ </div></details>
+ <details class="acc"><summary>Ejemplo: factura de una hélice (caso ficticio)</summary><div class="body">
+  <p>Un taller de Ciutadella cambia una hélice por 800 € más IVA. La factura ordinaria lleva número, fecha, datos completos de emisor y cliente, y este desglose:</p>
+  <div class="table-wrap"><table><tr><th>Concepto</th><th>Importe</th></tr><tr><td>Base imponible</td><td>800 €</td></tr><tr><td>IVA 21 %</td><td>168 €</td></tr><tr><td><b>Total</b></td><td><b>968 €</b></td></tr></table></div>
+  <p><b>Para pensar:</b> ¿qué datos faltarían en una factura simplificada?</p>
+ </div></details>`,
+ activities:[
+  { id:'s13a1', code:'A1', kind:'auto', title:'¿Cómo tributa cada forma jurídica?', ui:'grid',
+    intro:'Para cada forma, elige el impuesto sobre el beneficio y el pago a cuenta.',
+    grid:{
+     cols:[{name:'Impuesto',opts:['IRPF','Impuesto sobre Sociedades']},{name:'Pago a cuenta',opts:['Modelo 130','Modelo 202','Cada socio en su IRPF']}],
+     rows:[
+      {label:'Autónomo',a:[0,0]},
+      {label:'Comunidad de bienes',a:[0,2]},
+      {label:'Sociedad civil con objeto mercantil',a:[1,1]},
+      {label:'Sociedad limitada',a:[1,1]}
+     ]},
+    extra:[
+     {q:'Una sociedad civil con objeto mercantil, ¿presenta el modelo 130?',opts:['Sí, igual que un autónomo','No: tributa en Sociedades y hace pagos con el modelo 202','Sí, pero solo en octubre','No presenta ningún modelo'],a:1,why:'Al ser contribuyente del Impuesto sobre Sociedades, no presenta el 130.'}
+    ]},
+  { id:'s13a2', code:'A2', kind:'auto', title:'Test de IVA y facturación', ui:'radio',
+    intro:'Seis preguntas sobre IVA y facturas.',
+    items:[
+     {q:'El IVA repercutido es…',opts:['Un ingreso propio','Una deuda con Hacienda','Un gasto deducible','Un beneficio'],a:1,why:'Lo cobras al cliente, pero no es tuyo: es una deuda con Hacienda.'},
+     {q:'El taller cambia una hélice por 800 € más IVA al 21 %. La cuota de IVA es…',opts:['21 €','168 €','800 €','968 €'],a:1,why:'800 × 21 % = 168 €. El total es 968 €.'},
+     {q:'El límite general de una factura simplificada es…',opts:['400 € con IVA incluido','1.000 € sin IVA','3.000 € para todos los casos','No hay límite'],a:0,why:'El límite general es de 400 € con IVA incluido.'},
+     {q:'Una factura para una empresa que quiere deducir el IVA debe llevar…',opts:['Solo el importe','NIF y datos del cliente','Ningún dato','Solo el nombre'],a:1,why:'Para deducir el IVA, la factura debe identificar al cliente con su NIF.'},
+     {q:'Una factura a otra empresa debe expedirse antes del día…',opts:['16 del mes siguiente','30 del mismo mes','5 del mes siguiente','1 del año siguiente'],a:0,why:'Entre empresarios, antes del día 16 del mes siguiente a la operación.'},
+     {q:'Según las fuentes consultadas, Veri*Factu se aplica primero a…',opts:['Los autónomos, desde enero de 2027','Los contribuyentes del Impuesto sobre Sociedades, desde el 1 de enero de 2027','A nadie hasta 2030','Solo a las grandes empresas'],a:1,why:'Las fechas pueden cambiar: confirma la vigente en la AEAT.'}
+    ]},
+  { id:'s13a3', code:'A3', kind:'aula', title:'Emite una factura ordinaria',
+    desc:'Un taller de Ciutadella cambia una hélice: 800 € más IVA. Confecciona la factura ordinaria con todos los datos obligatorios: número, fecha, emisor, cliente con NIF, base, tipo, cuota y total. Se comenta en clase.'},
+  { id:'s13q', code:'Extra', kind:'auto', title:'Repaso rápido de la sesión', ui:'radio',
+    intro:'Tres preguntas para comprobar lo que has aprendido.',
+    items:[
+     {q:'El tipo general del IVA que se aplica a una reparación de embarcación es…',opts:['4 %','10 %','21 %','25 %'],a:2,why:'El tipo general es del 21 %.'},
+     {q:'El resultado de IVA de un trimestre es…',opts:['Repercutido más soportado','Repercutido menos soportado deducible','Soportado menos repercutido','Solo el repercutido'],a:1,why:'Se ingresa la diferencia entre el IVA cobrado y el IVA pagado deducible.'},
+     {q:'El tipo general del Impuesto sobre Sociedades es del…',opts:['15 %','21 %','25 %','30 %'],a:2,why:'El tipo general es del 25 %. Existen tipos reducidos que debes contrastar en la AEAT.'}
+    ]}
+ ]
+},
+/* ---------------------------------------------------------- SESIÓN 14 */
+{
+ id:'s14', n:14, block:'B06', title:'El calendario fiscal y las liquidaciones', ce:'2d',
+ goals:[
+  'Asociar cada modelo con el impuesto que liquida y con su plazo.',
+  'Calcular un modelo 303, un 115 y un 130 con datos de un caso náutico.',
+  'Preparar el calendario trimestral de un negocio.'],
+ theory:`
+ <details class="acc" open><summary>Los plazos y los modelos</summary><div class="body">
+  <p>Los plazos habituales terminan el <b>día 20 del mes siguiente</b> al trimestre. Si el día 20 cae en sábado, domingo o festivo, pasa al siguiente día hábil. El cuarto trimestre tiene plazos propios.</p>
+  <div class="table-wrap"><table>
+   <tr><th>Modelo</th><th>Qué es</th><th>Cuándo se presenta</th></tr>
+   <tr><td><b>303</b></td><td>IVA trimestral</td><td>Hasta el 20 de abril, julio y octubre. 4T hasta el 30 de enero</td></tr>
+   <tr><td><b>130 / 131</b></td><td>Pago fraccionado del IRPF del autónomo</td><td>Igual que el 303</td></tr>
+   <tr><td><b>111</b></td><td>Retenciones a trabajadores y profesionales</td><td>Hasta el 20 de abril, julio y octubre. 4T hasta el 20 de enero</td></tr>
+   <tr><td><b>115</b></td><td>Retenciones por alquiler de local</td><td>Igual que el 111</td></tr>
+   <tr><td><b>202</b></td><td>Pago fraccionado del Impuesto sobre Sociedades</td><td>Hasta el 20 de abril, octubre y diciembre</td></tr>
+   <tr><td><b>390, 190, 180</b></td><td>Resúmenes anuales de IVA y retenciones</td><td>Enero</td></tr>
+   <tr><td><b>347</b></td><td>Operaciones con terceros por encima de 3.005,06 € al año</td><td>Febrero</td></tr>
+   <tr><td><b>200</b></td><td>Impuesto sobre Sociedades anual</td><td>Julio, si el ejercicio coincide con el año natural</td></tr>
+   <tr><td><b>100</b></td><td>Renta (IRPF) anual</td><td>De abril a finales de junio</td></tr>
+  </table></div>
+  <p class="hint">El calendario del contribuyente de la AEAT fija los días exactos de cada año. Este curso, el 3T de 2026 vence el 20 de octubre.</p>
+ </div></details>
+ <details class="acc"><summary>El pago fraccionado del autónomo</summary><div class="body">
+  <p>El modelo 130 es el <b>20 % del rendimiento neto acumulado</b> del año, menos los pagos anteriores y las retenciones que te hayan practicado. Quien obtiene la mayor parte de sus ingresos con retención puede quedar exento: confirma las condiciones en la AEAT.</p>
+ </div></details>
+ <details class="acc"><summary>Ejemplo: Invernaje Náutico Menorca, primer trimestre (caso ficticio)</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Concepto</th><th>Cálculo</th><th>Resultado</th></tr>
+   <tr><td>Facturación del trimestre</td><td>12.000 € + 21 % IVA</td><td>IVA repercutido: 2.520 €</td></tr>
+   <tr><td>Compras de lonas y suministros</td><td>5.000 € + 21 % IVA</td><td>IVA soportado: 1.050 €</td></tr>
+   <tr><td>Alquiler del almacén</td><td>800 € × 3 = 2.400 € + 21 % IVA</td><td>IVA soportado: 504 €</td></tr>
+   <tr><td>Retención del alquiler</td><td>2.400 × 19 %</td><td>456 € (modelo 115)</td></tr>
+   <tr><td>Modelo 303</td><td>2.520 − (1.050 + 504)</td><td><b>966 € a ingresar</b></td></tr>
+   <tr><td>Rendimiento para el 130</td><td>12.000 − (5.000 + 2.400)</td><td>4.600 €</td></tr>
+   <tr><td>Modelo 130</td><td>4.600 × 20 %</td><td><b>920 € a ingresar</b></td></tr>
+  </table></div>
+  <p>Plazo: hasta el 20 de abril.</p>
+ </div></details>
+ <details class="acc"><summary>Ejemplo: Mantenimiento Náutico Llevant S.C., primer trimestre (caso ficticio)</summary><div class="body">
+  <div class="table-wrap"><table>
+   <tr><th>Concepto</th><th>Cálculo</th><th>Resultado</th></tr>
+   <tr><td>Facturación por servicios</td><td>18.000 € + 21 % IVA</td><td>IVA repercutido: 3.780 €</td></tr>
+   <tr><td>Compras de repuestos</td><td>7.000 € + 21 % IVA</td><td>IVA soportado: 1.470 €</td></tr>
+   <tr><td>Alquiler de la nave</td><td>1.000 € × 3 = 3.000 € + 21 % IVA</td><td>IVA soportado: 630 €</td></tr>
+   <tr><td>Retención del alquiler</td><td>3.000 × 19 %</td><td>570 € (modelo 115)</td></tr>
+   <tr><td>Modelo 303</td><td>3.780 − (1.470 + 630)</td><td><b>1.680 € a ingresar</b></td></tr>
+  </table></div>
+  <p>Como la sociedad paga Impuesto sobre Sociedades, no presenta el modelo 130. Sus pagos a cuenta van en el modelo 202.</p>
+ </div></details>`,
+ activities:[
+  { id:'s14a1', code:'A1', kind:'auto', title:'Relaciona cada modelo con su función', ui:'select',
+    intro:'Elige la función de cada modelo.',
+    opts:['IVA trimestral','Pago fraccionado del IRPF del autónomo','Retenciones por alquiler de local','Operaciones con terceros superiores a 3.005,06 €','Retenciones a trabajadores y profesionales','Pago fraccionado del Impuesto sobre Sociedades'],
+    items:[
+     {q:'Modelo 303',a:0,why:'El 303 es la autoliquidación trimestral del IVA.'},
+     {q:'Modelo 130',a:1,why:'El 130 es el pago fraccionado del IRPF en estimación directa.'},
+     {q:'Modelo 115',a:2,why:'El 115 recoge las retenciones por alquiler de local.'},
+     {q:'Modelo 347',a:3,why:'El 347 es informativo y se presenta en febrero.'},
+     {q:'Modelo 111',a:4,why:'El 111 recoge las retenciones practicadas a trabajadores y profesionales.'},
+     {q:'Modelo 202',a:5,why:'El 202 es el pago fraccionado del Impuesto sobre Sociedades.'}
+    ]},
+  { id:'s14a2', code:'A2', kind:'auto', title:'¿Hasta cuándo se presenta?', ui:'select',
+    intro:'Elige el plazo general de cada presentación.',
+    opts:['20 de abril','20 de julio','20 de octubre','20 de diciembre','30 de enero','Febrero'],
+    items:[
+     {q:'Modelo 303 del tercer trimestre.',a:2,why:'El 3T se presenta hasta el 20 de octubre.'},
+     {q:'Tercer pago fraccionado del Impuesto sobre Sociedades (modelo 202).',a:3,why:'El 202 se presenta en abril, octubre y diciembre, hasta el día 20.'},
+     {q:'Modelo 303 del cuarto trimestre.',a:4,why:'El 4T del IVA se presenta hasta el 30 de enero.'},
+     {q:'Modelo 347.',a:5,why:'La declaración de operaciones con terceros se presenta en febrero.'},
+     {q:'Modelo 111 del segundo trimestre.',a:1,why:'El 2T vence el 20 de julio.'},
+     {q:'Primer pago fraccionado del Impuesto sobre Sociedades.',a:0,why:'El primer 202 se presenta hasta el 20 de abril.'}
+    ]},
+  { id:'s14a3', code:'A3', kind:'auto', title:'Liquida el primer trimestre de Invernaje Náutico Menorca', ui:'radio',
+    intro:'Usa las cifras del ejemplo de la teoría para calcular cada modelo.',
+    items:[
+     {q:'IVA repercutido por 12.000 € de facturación al 21 %:',opts:['1.470 €','2.520 €','3.150 €','12.000 €'],a:1,why:'12.000 × 21 % = 2.520 €.'},
+     {q:'Retención del alquiler: 800 € al mes durante tres meses al 19 % (modelo 115):',opts:['152 €','456 €','570 €','2.400 €'],a:1,why:'2.400 × 19 % = 456 €.'},
+     {q:'Resultado del modelo 303, con IVA soportado de 1.050 € (compras) y 504 € (alquiler):',opts:['966 € a ingresar','1.470 € a ingresar','2.520 € a ingresar','1.554 € a ingresar'],a:0,why:'2.520 − (1.050 + 504) = 966 €.'},
+     {q:'Rendimiento para el modelo 130: 12.000 € de ingresos menos 5.000 € de compras y 2.400 € de alquiler:',opts:['7.000 €','4.600 €','12.000 €','9.600 €'],a:1,why:'12.000 − 7.400 = 4.600 €.'},
+     {q:'Modelo 130 con ese rendimiento:',opts:['460 €','920 €','2.300 €','4.600 €'],a:1,why:'4.600 × 20 % = 920 €.'}
+    ]},
+  { id:'s14a4', code:'A4', kind:'classroom', title:'Liquidación de un chárter y calendario de tu idea de negocio',
+    desc:'Entrega por Classroom dos partes. Parte 1: un servicio de alquiler de embarcaciones en Maó facturó 15.000 € más 21 % de IVA y tuvo gastos de combustible y amarre por 6.000 € más 21 % de IVA; calcula el modelo 303. Parte 2: el calendario del primer año de tu idea de negocio.',
+    points:['Calcula el IVA repercutido, el soportado y el resultado del modelo 303.','Indica el plazo de presentación.','Para tu idea de negocio, lista los modelos que presentaría en el primer año, con impuesto y plazo.','Indica qué forma jurídica supones y por qué.']},
+  { id:'s14q', code:'Autoevaluación B06', kind:'auto', title:'Autoevaluación del bloque B06', ui:'radio',
+    intro:'Cinco preguntas de todo el bloque.',
+    items:[
+     {q:'Un negocio factura 15.000 € + IVA y gasta 6.000 € + IVA, ambos al 21 %. El modelo 303 sale…',opts:['1.260 € a ingresar','1.890 € a ingresar','3.150 € a ingresar','9.000 € a ingresar'],a:1,why:'3.150 − 1.260 = 1.890 €.'},
+     {q:'El modelo 130 es el… del rendimiento neto acumulado del año.',opts:['5 %','15 %','20 %','25 %'],a:2,why:'El pago fraccionado es el 20 %, menos pagos anteriores y retenciones.'},
+     {q:'¿Qué modelo presenta una SL en abril, octubre y diciembre?',opts:['130','202','303','347'],a:1,why:'El 202 es el pago fraccionado del Impuesto sobre Sociedades.'},
+     {q:'Confundir el plazo general con el de domiciliación bancaria es un error porque…',opts:['La domiciliación suele terminar unos días antes','No existe la domiciliación','Son el mismo día siempre','La domiciliación termina después'],a:0,why:'El plazo para domiciliar el pago suele cerrar unos días antes que el plazo general.'},
+     {q:'Presentar los modelos trimestrales…',opts:['Exime de los resúmenes anuales','No exime de los resúmenes anuales','Exime solo del 347','Exime solo del 390'],a:1,why:'Los resúmenes anuales (390, 190, 180) son obligaciones aparte.'}
+    ]}
+ ]
+}
+];
+
+/* ====== RECURSOS ====== */
+const LINKS = [
+ {t:'Seguridad Social · Sede electrónica',d:'Alta en el RETA, cotización y regularización (Importass).',u:'https://sede.seg-social.gob.es'},
+ {t:'Seguridad Social · Información para autónomos',d:'Guía práctica: cuotas, tramos, tarifa plana y coberturas.',u:'https://www.seg-social.es'},
+ {t:'Agencia Tributaria · Sede electrónica',d:'Modelos 036/037, calendario del contribuyente y tipos vigentes.',u:'https://sede.agenciatributaria.gob.es'},
+ {t:'Ley 20/2007 del Estatuto del Trabajo Autónomo',d:'Texto oficial en el BOE: autónomo, TRADE y derechos.',u:'https://www.boe.es/eli/es/l/2007/07/11/20'},
+ {t:'Real Decreto-ley 13/2022 (cotización por ingresos reales)',d:'Texto oficial en el BOE.',u:'https://www.boe.es/eli/es/rdl/2022/07/26/13'},
+ {t:'Ley General Tributaria (Ley 58/2003)',d:'Define los tributos y sus clases.',u:'https://www.boe.es/eli/es/l/2003/12/17/58'},
+ {t:'Ley del IVA (Ley 37/1992)',d:'Mecánica, devengo y tipos del IVA.',u:'https://www.boe.es/eli/es/l/1992/12/28/37'},
+ {t:'Reglamento de facturación (Real Decreto 1619/2012)',d:'Contenido y plazos de las facturas.',u:'https://www.boe.es/eli/es/rd/2012/11/30/1619'},
+ {t:'Ley del Impuesto sobre Sociedades (Ley 27/2014)',d:'Quién tributa en Sociedades, incluidas las sociedades civiles con objeto mercantil.',u:'https://www.boe.es/eli/es/l/2014/11/27/27'},
+ {t:'Creación de empresas · CIRCE y PAE',d:'Tramitación telemática con el DUE.',u:'https://paeelectronico.es'},
+ {t:'Registro Mercantil Central',d:'Certificación negativa de denominación.',u:'https://www.rmc.es'},
+ {t:'Agència Tributària de les Illes Balears',d:'Tributos propios y gestión autonómica en las Illes Balears.',u:'https://www.atib.es'}
+];
+const VIDEOS = [
+ {t:'Alta de autónomo en la Seguridad Social',q:'alta autónomo RETA Importass paso a paso',s:'Comprueba que el vídeo sea de 2025 o 2026.',id:''},
+ {t:'Cotización por ingresos reales',q:'cotización autónomos por ingresos reales 2026 tramos',s:'Comprueba el tipo total y la tabla del año.',id:''},
+ {t:'TRADE y falso autónomo',q:'diferencia TRADE y falso autónomo',s:'Comprueba el umbral del 75 %.',id:''},
+ {t:'Cómo rellenar el modelo 037',q:'cómo rellenar el modelo 037 alta autónomo',s:'Fíjate en el apartado de epígrafe y de IVA.',id:''},
+ {t:'Crear una empresa con CIRCE y DUE',q:'crear una empresa con CIRCE y DUE PAE',s:'Comprueba qué trámites se unifican.',id:''},
+ {t:'Impuestos, tasas y contribuciones especiales',q:'tipos de tributos impuestos tasas contribuciones especiales',s:'Comprueba que los ejemplos sean claros.',id:''},
+ {t:'Cómo presentar el modelo 303 de IVA',q:'cómo presentar el modelo 303 IVA trimestral',s:'Comprueba las casillas de IVA devengado y deducible.',id:''},
+ {t:'Modelo 130 y facturas: lo que debes saber',q:'modelo 130 pago fraccionado autónomos factura simplificada ordinaria',s:'Comprueba el 20 % y los datos obligatorios de la factura.',id:''}
+];
+
+/* ===== CONFIGURACIÓN (edita solo este bloque) ===== */
+const CONFIG = {
+  // URL del flujo de Power Automate con disparador "Cuando se recibe una solicitud HTTP".
+  // Déjala vacía si aún no lo has creado: la web ofrecerá enviar el resultado con el correo del alumno.
+  WEBHOOK_URL: "",
+  // Dirección que recibe los resultados cuando se usa el envío alternativo por correo.
+  TEACHER_EMAIL: "jpons@centredelamar.com",
+  UNIDAD: "UD2 · IB2301 Autoocupació i emprenedoria"
+};
+
+/* ===== utilidades ===== */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => (Math.round(n*10)/10).toString().replace('.', ',');
+const store = {
+  get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const state = {
+  id: store.get('ud2:id'),                // {name, group}
+  done: store.get('ud2:done') || {},      // {s1:{score, ts, sent}}
+  practice: {}                            // sesiones en modo práctica
+};
+
+/* ===== render de actividades ===== */
+function optHTML(name, i, text, type){
+  return `<label class="opt"><input type="${type}" name="${name}" value="${i}"><span>${text}</span></label>`;
+}
+function itemUI(a, it){ return it.ui || a.ui; }
+
+function renderAutoQuestion(a, it, qi, sharedOpts){
+  const name = `${a.id}__${qi}`;
+  const ui = itemUI(a, it);
+  let body = '';
+  if(ui === 'select'){
+    const opts = sharedOpts || it.opts;
+    body = `<select class="sel" name="${name}" aria-label="Respuesta"><option value="">Elige una opción…</option>${opts.map((o,i)=>`<option value="${i}">${esc(o)}</option>`).join('')}</select>`;
+  } else if(ui === 'multi'){
+    body = `<fieldset>${it.opts.map((o,i)=>optHTML(name,i,esc(o),'checkbox')).join('')}</fieldset><p class="hint">Puede haber más de una respuesta correcta.</p>`;
+  } else {
+    body = `<fieldset>${it.opts.map((o,i)=>optHTML(name,i,esc(o),'radio')).join('')}</fieldset>`;
+  }
+  return `<div class="q" data-q="${qi}" data-ui="${ui}"><div class="qt"><span class="qn">${qi+1}.</span>${esc(it.q)}</div>${body}<div class="fbslot"></div></div>`;
+}
+
+function renderGrid(a){
+  const g = a.grid;
+  let h = `<div class="table-wrap"><table class="gridtab"><tr><th></th>${g.cols.map(c=>`<th>${esc(c.name)}</th>`).join('')}</tr>`;
+  g.rows.forEach((r,ri)=>{
+    h += `<tr><th scope="row">${esc(r.label)}</th>` + g.cols.map((c,ci)=>
+      `<td class="cell" data-r="${ri}" data-c="${ci}"><select class="sel" name="${a.id}__g${ri}_${ci}" aria-label="${esc(r.label)} · ${esc(c.name)}"><option value="">Elige…</option>${c.opts.map((o,i)=>`<option value="${i}">${esc(o)}</option>`).join('')}</select><span class="why"></span></td>`).join('') + `</tr>`;
+  });
+  return h + `</table></div>`;
+}
+
+function renderActivity(a){
+  if(a.kind !== 'auto'){
+    const label = a.kind === 'classroom' ? 'Se entrega por Classroom' : 'Actividad de aula';
+    const ico = a.kind === 'classroom' ? '📎' : '🗣️';
+    const pts = a.points ? `<p><b>Cómo se valora:</b></p><ul class="goals">${a.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>` : '';
+    return `<section class="act" id="act-${a.id}"><div class="act-head"><span class="act-code">${esc(a.code)}</span><h4>${esc(a.title)}</h4><span class="badge cls">${label}</span></div>
+      <div class="act-body"><div class="cls-box"><div class="ico" aria-hidden="true">${ico}</div><div><p>${esc(a.desc)}</p>${pts}</div></div></div></section>`;
+  }
+  let inner = a.intro ? `<p>${esc(a.intro)}</p>` : '';
+  if(a.ui === 'grid'){
+    inner += renderGrid(a);
+    if(a.extra){ inner += `<h4 style="margin-top:18px">Mini casos</h4>` + a.extra.map((it,i)=>renderAutoQuestion({id:a.id,ui:'radio'}, it, i+100)).join(''); }
+  } else {
+    inner += a.items.map((it,i)=>renderAutoQuestion(a, it, i, a.opts)).join('');
+  }
+  return `<section class="act" id="act-${a.id}" data-act="${a.id}"><div class="act-head"><span class="act-code">${esc(a.code)}</span><h4>${esc(a.title)}</h4><span class="badge auto">Autocorregible</span></div><div class="act-body">${inner}</div></section>`;
+}
+
+function renderSession(s){
+  const autos = s.activities.filter(a=>a.kind==='auto');
+  return `
+  <div class="card">
+    <div class="meta"><span class="pill brand">Sesión ${s.n} · ${s.block}</span><span class="pill">55 min</span><span class="pill">Criterio ${esc(s.ce)}</span></div>
+    <h2>${esc(s.title)}</h2>
+    <h4>Al terminar esta sesión sabrás…</h4>
+    <ul class="goals">${s.goals.map(g=>`<li>${esc(g)}</li>`).join('')}</ul>
+  </div>
+  <h3 class="sect-title">Lo esencial</h3>
+  ${s.theory}
+  <h3 class="sect-title">Actividades</h3>
+  <p class="hint">Las actividades <b>autocorregibles</b> se responden aquí y se corrigen cuando envías la sesión. Las demás se explican y se hacen en clase o en Classroom.</p>
+  <div id="notice-${s.id}"></div>
+  ${s.activities.map(renderActivity).join('')}
+  ${autos.length ? `<div class="submit-bar" id="bar-${s.id}">
+      <div class="progress"><span id="prog-${s.id}">0 de 0 respondidas</span><div class="bar"><i id="barfill-${s.id}"></i></div></div>
+      <button class="btn" id="send-${s.id}">Enviar actividades de la sesión ${s.n}</button>
+    </div><div id="result-${s.id}"></div>` : ''}`;
+}
+
+/* ===== recuento y corrección ===== */
+function unitsOf(a){
+  // devuelve la lista de "unidades" calificables de una actividad autocorregible
+  const u = [];
+  if(a.ui === 'grid'){
+    a.grid.rows.forEach((r,ri)=>a.grid.cols.forEach((c,ci)=>u.push({kind:'cell',ri,ci,a:r.a[ci],name:`${a.id}__g${ri}_${ci}`})));
+    (a.extra||[]).forEach((it,i)=>u.push({kind:'radio',qi:i+100,it,name:`${a.id}__${i+100}`}));
+  } else {
+    a.items.forEach((it,i)=>{
+      const ui = itemUI(a,it);
+      u.push({kind: ui==='select'?'select':ui==='multi'?'multi':'radio', qi:i, it, name:`${a.id}__${i}`, sel: a.opts});
+    });
+  }
+  return u;
+}
+function valueOf(panel, u){
+  if(u.kind==='multi') return $$(`input[name="${u.name}"]:checked`,panel).map(x=>+x.value);
+  if(u.kind==='radio'){ const c=$(`input[name="${u.name}"]:checked`,panel); return c ? +c.value : null; }
+  const s=$(`select[name="${u.name}"]`,panel); return s && s.value!=='' ? +s.value : null;
+}
+function answered(v){ return Array.isArray(v) ? v.length>0 : v!==null; }
+
+function countAnswered(sess, panel){
+  let t=0, r=0;
+  sess.activities.filter(a=>a.kind==='auto').forEach(a=>unitsOf(a).forEach(u=>{ t++; if(answered(valueOf(panel,u))) r++; }));
+  return {t,r};
+}
+function updateProgress(sess, panel){
+  const {t,r} = countAnswered(sess,panel);
+  const p = $(`#prog-${sess.id}`); if(p) p.textContent = `${r} de ${t} respondidas`;
+  const b = $(`#barfill-${sess.id}`); if(b) b.style.width = (t? r/t*100 : 0)+'%';
+}
+
+function gradeActivity(a, panel){
+  const box = $(`#act-${a.id}`, panel);
+  let sum=0, total=0, ans=0;
+  const units = unitsOf(a);
+  units.forEach(u=>{
+    const v = valueOf(panel,u);
+    total++; if(answered(v)) ans++;
+    let frac=0;
+    if(u.kind==='cell'){
+      frac = v===u.a ? 1 : 0;
+      const cell = $(`td.cell[data-r="${u.ri}"][data-c="${u.ci}"]`, box);
+      cell.classList.add(frac?'ok':'bad');
+      if(!frac){ $('.why',cell).textContent = 'Correcto: ' + a.grid.cols[u.ci].opts[u.a]; }
+    } else if(u.kind==='multi'){
+      const right = u.it.a, got = v||[];
+      const hits = got.filter(x=>right.includes(x)).length, wrong = got.filter(x=>!right.includes(x)).length;
+      frac = Math.max(0,(hits-wrong)/right.length);
+      const q = $(`.q[data-q="${u.qi}"]`, box);
+      q.classList.add(frac===1?'ok':'bad');
+      $$('.opt',q).forEach((o,i)=>{ if(right.includes(i)) o.classList.add('right'); if(got.includes(i)) o.classList.add('chosen'); });
+      $('.fbslot',q).innerHTML = `<div class="fb ${frac===1?'ok':'bad'}"><b>${frac===1?'Correcto':(frac>0?'Parcialmente correcto':'Incorrecto')}</b><span>${esc(u.it.why)}</span></div>`;
+    } else {
+      const right = u.it.a;
+      frac = v===right ? 1 : 0;
+      const q = $(`.q[data-q="${u.qi}"]`, box);
+      q.classList.add(frac?'ok':'bad');
+      const opts = u.kind==='select' ? a.opts : u.it.opts;
+      if(u.kind==='radio'){
+        $$('.opt',q).forEach((o,i)=>{ if(i===right) o.classList.add('right'); if(i===v) o.classList.add('chosen'); });
+      }
+      const sel = $('select',q); if(sel){ sel.classList.add(frac?'ok':'bad'); }
+      $('.fbslot',q).innerHTML = `<div class="fb ${frac?'ok':'bad'}"><b>${frac?'Correcto':(v===null?'Sin responder':'Incorrecto')}${frac?'':' · Respuesta correcta: '+esc(opts[right])}</b><span>${esc(u.it.why)}</span></div>`;
+    }
+    sum += frac;
+  });
+  return {codigo:a.code, titulo:a.title, aciertos:Math.round(sum*100)/100, total, respondidas:ans, nota:Math.round(sum/total*100)/10};
+}
+function lockPanel(panel, lock){
+  $$('input,select', panel).forEach(el=>{ if(el.closest('.act-body')) el.disabled = lock; });
+}
+function resetActivities(sess, panel){
+  $$('.act[data-act]', panel).forEach(box=>{
+    $$('input',box).forEach(i=>{ i.checked=false; });
+    $$('select',box).forEach(s=>{ s.value=''; s.classList.remove('ok','bad'); });
+    $$('.q',box).forEach(q=>{ q.classList.remove('ok','bad'); $('.fbslot',q).innerHTML=''; $$('.opt',q).forEach(o=>o.classList.remove('right','chosen')); });
+    $$('td.cell',box).forEach(c=>{ c.classList.remove('ok','bad'); $('.why',c).textContent=''; });
+  });
+}
+
+/* ===== diálogos ===== */
+function askConfirm(title, text, okLabel='Continuar'){
+  return new Promise(res=>{
+    const d = $('#cfDlg'); $('#cfTitle').textContent = title; $('#cfText').textContent = text; $('#cfOk').textContent = okLabel;
+    const done = v => { d.close(); res(v); };
+    $('#cfOk').onclick = ()=>done(true); $('#cfNo').onclick = ()=>done(false);
+    d.oncancel = e=>{ e.preventDefault(); done(false); };
+    d.showModal();
+  });
+}
+function openIdentity(){
+  return new Promise(res=>{
+    const d = $('#idDlg'); const f = $('#idForm');
+    $('#idName').value = state.id ? state.id.name : ''; $('#idGroup').value = state.id ? state.id.group : '';
+    $('#idErr').textContent = '';
+    f.onsubmit = e=>{
+      e.preventDefault();
+      const name = $('#idName').value.trim().replace(/\s+/g,' '), group = $('#idGroup').value.trim().toUpperCase();
+      if(name.length < 3){ $('#idErr').textContent = 'Escribe tu nombre y apellidos.'; $('#idName').focus(); return; }
+      if(group.length < 2){ $('#idErr').textContent = 'Escribe el código de tu grupo.'; $('#idGroup').focus(); return; }
+      state.id = {name, group}; store.set('ud2:id', state.id); refreshWho(); d.close(); res(true);
+    };
+    $('#idCancel').onclick = ()=>{ d.close(); res(false); };
+    d.oncancel = ()=>res(false);
+    d.showModal(); setTimeout(()=>$('#idName').focus(),30);
+  });
+}
+async function requireIdentity(){ if(state.id) return true; return openIdentity(); }
+function refreshWho(){
+  const w = $('#who'); w.textContent = state.id ? `👤 ${state.id.name} · ${state.id.group}` : '👤 Identifícate';
+}
+
+/* ===== envío ===== */
+function buildPayload(sess, acts, total, practice){
+  const aciertosTot = acts.reduce((s,a)=>s+a.aciertos,0), unidades = acts.reduce((s,a)=>s+a.total,0);
+  const resp = acts.reduce((s,a)=>s+a.respondidas,0);
+  const nota = Math.round(aciertosTot/unidades*100)/10;
+  const resumen = [
+    `${CONFIG.UNIDAD}`, `Sesión ${sess.n} (${sess.block}) · ${sess.title}`,
+    `Alumno/a: ${state.id.name}`, `Grupo: ${state.id.group}`,
+    `Nota de la sesión: ${fmt(nota)} / 10  (${resp} de ${unidades} respondidas)`, '',
+    ...acts.map(a=>`- ${a.codigo} · ${a.titulo}: ${fmt(a.nota)} / 10 (${fmt(a.aciertos)} de ${a.total})`),
+    '', `Fecha: ${new Date().toLocaleString('es-ES')}`
+  ].join('\n');
+  return { version:1, unidad:CONFIG.UNIDAD, sesion:'S'+sess.n, bloque:sess.block, titulo:sess.title,
+    alumno:state.id.name, grupo:state.id.group, nota, nota_texto:`${fmt(nota)} / 10`, respondidas:resp, total:unidades,
+    actividades:acts, fecha:new Date().toISOString(), practica:!!practice,
+    asunto:`[${state.id.group}] ${state.id.name} · S${sess.n} ${sess.block} · ${fmt(nota)}/10`, resumen };
+}
+async function sendPayload(p){
+  if(!CONFIG.WEBHOOK_URL) return {ok:false, reason:'noconfig'};
+  try{
+    await fetch(CONFIG.WEBHOOK_URL, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=UTF-8'}, body:JSON.stringify(p)});
+    return {ok:true};
+  }catch(e){ return {ok:false, reason:'network'}; }
+}
+function mailtoFor(p){
+  return `mailto:${CONFIG.TEACHER_EMAIL}?subject=${encodeURIComponent(p.asunto)}&body=${encodeURIComponent(p.resumen)}`;
+}
+
+async function submitSession(sess){
+  const panel = $(`#panel-${sess.id}`);
+  if(!(await requireIdentity())) return;
+  const practice = !!state.practice[sess.id];
+  const {t,r} = countAnswered(sess, panel);
+  if(r < t){
+    const ok = await askConfirm('Faltan respuestas', `Has respondido ${r} de ${t}. Las que falten contarán como incorrectas y no podrás cambiar tus respuestas después. ¿Enviar igualmente?`, 'Enviar igualmente');
+    if(!ok) return;
+  } else {
+    const ok = await askConfirm('¿Enviar la sesión?', practice ? 'Estás en modo práctica: se corregirá pero no se enviará nada a tu profesor.' : 'Se corregirá y se enviará tu resultado a tu profesor. No podrás cambiar las respuestas enviadas.', 'Enviar');
+    if(!ok) return;
+  }
+  const acts = sess.activities.filter(a=>a.kind==='auto').map(a=>gradeActivity(a,panel));
+  lockPanel(panel,true);
+  $(`#send-${sess.id}`).disabled = true;
+  const p = buildPayload(sess, acts, null, practice);
+  const out = $(`#result-${sess.id}`);
+  out.innerHTML = `<div class="result" role="status"><div class="big">${fmt(p.nota)} <small>/ 10</small></div>
+    <p style="margin:.4em 0">${practice?'Modo práctica: este intento no se envía.':'Resultado de la sesión'}</p>
+    <ul>${acts.map(a=>`<li><b>${esc(a.codigo)}</b> · ${esc(a.titulo)}: ${fmt(a.nota)} / 10</li>`).join('')}</ul>
+    <div id="st-${sess.id}"></div>
+    <div class="dlg-actions" style="justify-content:flex-start">
+      <button class="btn sec" id="copy-${sess.id}">Copiar resumen</button>
+      <button class="btn ghost" id="again-${sess.id}">Practicar de nuevo (no se envía)</button>
+    </div></div>`;
+  $(`#copy-${sess.id}`).onclick = async e=>{ try{ await navigator.clipboard.writeText(p.resumen); e.target.textContent='Copiado ✓'; }catch(_){ e.target.textContent='No se pudo copiar'; } };
+  $(`#again-${sess.id}`).onclick = ()=>{ state.practice[sess.id]=true; resetActivities(sess,panel); lockPanel(panel,false); out.innerHTML=''; $(`#send-${sess.id}`).disabled=false; updateProgress(sess,panel); showNotice(sess); panel.scrollIntoView({behavior:'smooth'}); };
+  out.scrollIntoView({behavior:'smooth', block:'center'});
+  const st = $(`#st-${sess.id}`);
+  if(practice){ st.innerHTML = `<div class="status warn">Modo práctica: no se ha enviado nada.</div>`; return; }
+  const doSend = async ()=>{
+    st.innerHTML = `<div class="status warn">Enviando…</div>`;
+    const res = await sendPayload(p);
+    if(res.ok){
+      state.done[sess.id] = {score:p.nota, ts:p.fecha, sent:true}; store.set('ud2:done', state.done); markTabs();
+      st.innerHTML = `<div class="status ok">✓ Resultado enviado a tu profesor. Guarda una captura de esta pantalla como justificante.</div>`;
+    } else if(res.reason==='noconfig'){
+      state.done[sess.id] = {score:p.nota, ts:p.fecha, sent:false}; store.set('ud2:done', state.done); markTabs();
+      st.innerHTML = `<div class="status warn">El envío automático aún no está activado. Envía tu resultado por correo con este botón:</div>
+        <p style="margin-top:8px"><a class="btn" href="${mailtoFor(p)}">Enviar por correo</a></p>`;
+    } else {
+      st.innerHTML = `<div class="status bad">No se ha podido enviar (¿sin conexión?).</div>
+        <p style="margin-top:8px"><button class="btn" id="retry-${sess.id}">Reintentar</button> <a class="btn sec" href="${mailtoFor(p)}">Enviar por correo</a></p>`;
+      $(`#retry-${sess.id}`).onclick = doSend;
+    }
+  };
+  doSend();
+}
+
+function showNotice(sess){
+  const n = $(`#notice-${sess.id}`); if(!n) return;
+  const d = state.done[sess.id];
+  if(state.practice[sess.id] && d){ n.innerHTML = `<div class="callout info"><b class="t">Modo práctica</b>Ya enviaste esta sesión${d.score!=null?` (nota ${fmt(d.score)} / 10)`:''}. Puedes repetir las actividades, pero no se enviarán de nuevo.</div>`; }
+  else n.innerHTML = '';
+}
+
+/* ===== tabs ===== */
+const TABS = [{id:'inicio',label:'Inicio',sub:'UD2'}].concat(SESSIONS.map(s=>({id:s.id,label:`Sesión ${s.n}`,sub:s.block}))).concat([{id:'recursos',label:'Recursos',sub:'Enlaces y vídeos'}]);
+function markTabs(){
+  $$('.tab').forEach(t=>{
+    const id = t.dataset.id, d = state.done[id];
+    const mark = $('.mk', t); if(mark) mark.innerHTML = d ? ' <span class="done" title="Enviada">✓</span>' : '';
+  });
+}
+function selectTab(id, focus){
+  TABS.forEach(t=>{
+    const on = t.id===id, btn = $(`#tab-${t.id}`), pn = $(`#panel-${t.id}`);
+    btn.setAttribute('aria-selected', on); btn.tabIndex = on?0:-1; pn.hidden = !on;
+  });
+  if(history.replaceState) history.replaceState(null,'','#'+id);
+  const b = $(`#tab-${id}`); if(focus) b.focus(); b.scrollIntoView({inline:'center',block:'nearest'});
+  window.scrollTo({top:0});
+}
+
+/* ===== páginas ===== */
+function renderInicio(){
+  const rows = SESSIONS.map(s=>{
+    const au = s.activities.filter(a=>a.kind==='auto').length, ot = s.activities.length-au;
+    return `<tr><td><a href="#${s.id}" data-go="${s.id}">Sesión ${s.n}</a></td><td>${s.block}</td><td>${esc(s.title)}</td><td>${esc(s.ce)}</td><td>${au}</td><td>${ot}</td></tr>`;
+  }).join('');
+  return `<div class="card"><h2>Unidad 2 · Obligaciones laborales y fiscales</h2>
+   <p>Seis sesiones para saber qué obligaciones tiene un autónomo, qué trámites exige abrir un negocio, cómo tributa cada forma jurídica y qué modelos hay que presentar cada trimestre. Todos los ejemplos son del sector náutico de Menorca.</p>
+   <div class="meta"><span class="pill brand">RA2</span><span class="pill">Criterios 2a a 2e</span><span class="pill">6 sesiones · 55 min</span></div></div>
+   <div class="grid2">
+    <div class="card"><h3>Cómo funciona</h3><ol class="goals">
+      <li>Elige la pestaña de tu sesión y lee <b>Lo esencial</b>.</li>
+      <li>Haz las actividades. Te pediremos tu <b>nombre y el código de tu grupo</b> al empezar.</li>
+      <li>Pulsa <b>Enviar actividades</b> al final de la sesión: se corrigen al momento y tu profesor recibe el resultado.</li>
+      <li>Las actividades marcadas <span class="badge cls">Classroom</span> se explican aquí, pero se entregan en Classroom.</li></ol></div>
+    <div class="card"><h3>Conviene saber</h3><ul class="goals">
+      <li>Solo cuenta el primer envío de cada sesión. Después puedes <b>practicar</b> sin que se envíe.</li>
+      <li>Las cifras, tipos y plazos son de octubre de 2026. Cambian cada año: comprueba siempre la fuente oficial.</li>
+      <li>Si el envío falla, podrás mandar el resultado por correo.</li></ul></div>
+   </div>
+   <div class="card"><h3>Mapa de la unidad</h3><div class="table-wrap"><table><tr><th>Sesión</th><th>Bloque</th><th>Tema</th><th>Criterio</th><th>Autocorregibles</th><th>Aula / Classroom</th></tr>${rows}</table></div></div>`;
+}
+function renderRecursos(){
+  return `<div class="card"><h2>Enlaces de interés</h2><p class="hint">Fuentes oficiales para consultar la normativa y las convocatorias vigentes.</p>
+   <ul class="links">${LINKS.map(l=>`<li><a class="lk" href="${l.u}" target="_blank" rel="noopener noreferrer"><span class="lt">${esc(l.t)}</span><span class="ld">${esc(l.d)}</span></a></li>`).join('')}</ul></div>
+   <div class="card"><h2>Vídeos recomendados</h2><p class="hint">Cada tarjeta abre una búsqueda en YouTube con la consulta indicada. Elige un vídeo de menos de 10 minutos de un canal fiable y comprueba que las cifras sean actuales.</p>
+   <div class="vgrid">${VIDEOS.map(v=>`<div class="vcard">${v.id?`<iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/${esc(v.id)}" title="${esc(v.t)}" allowfullscreen></iframe>`:`<div class="thumb" aria-hidden="true">▶</div>`}
+     <div class="vb"><b>${esc(v.t)}</b><small>${esc(v.s)}</small><br><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(v.q)}" target="_blank" rel="noopener noreferrer">Buscar: ${esc(v.q)}</a></div></div>`).join('')}</div></div>`;
+}
+
+/* ===== arranque ===== */
+function init(){
+  const tabs = $('#tabs'), main = $('#app');
+  tabs.innerHTML = TABS.map(t=>`<button class="tab" role="tab" id="tab-${t.id}" data-id="${t.id}" aria-controls="panel-${t.id}" aria-selected="false" tabindex="-1">${t.label}<small>${t.sub}<span class="mk"></span></small></button>`).join('');
+  main.innerHTML = TABS.map(t=>`<section class="panel" role="tabpanel" id="panel-${t.id}" aria-labelledby="tab-${t.id}" hidden></section>`).join('');
+  $('#panel-inicio').innerHTML = renderInicio();
+  SESSIONS.forEach(s=>{
+    const p = $(`#panel-${s.id}`); p.innerHTML = renderSession(s);
+    if(state.done[s.id]) state.practice[s.id] = true;
+    showNotice(s);
+    p.addEventListener('change', ()=>updateProgress(s,p));
+    p.addEventListener('input', ()=>updateProgress(s,p));
+    updateProgress(s,p);
+    const b = $(`#send-${s.id}`); if(b) b.onclick = ()=>submitSession(s);
+  });
+  $('#panel-recursos').innerHTML = renderRecursos();
+  tabs.addEventListener('click', e=>{ const b=e.target.closest('.tab'); if(b) selectTab(b.dataset.id); });
+  tabs.addEventListener('keydown', e=>{
+    const i = TABS.findIndex(t=>$(`#tab-${t.id}`).getAttribute('aria-selected')==='true');
+    let n = null;
+    if(e.key==='ArrowRight') n=(i+1)%TABS.length; else if(e.key==='ArrowLeft') n=(i-1+TABS.length)%TABS.length;
+    else if(e.key==='Home') n=0; else if(e.key==='End') n=TABS.length-1;
+    if(n!==null){ e.preventDefault(); selectTab(TABS[n].id,true); }
+  });
+  document.addEventListener('click', e=>{ const g=e.target.closest('[data-go]'); if(g){ e.preventDefault(); selectTab(g.dataset.go); } });
+  // pedir identificación al empezar las actividades
+  main.addEventListener('focusin', async e=>{
+    if(state.id || $('#idDlg').open) return;
+    if(e.target.closest('.act[data-act] .act-body')){ e.target.blur(); await openIdentity(); }
+  });
+  $('#who').onclick = openIdentity;
+  refreshWho(); markTabs();
+  const h = (location.hash||'').slice(1);
+  selectTab(TABS.some(t=>t.id===h) ? h : 'inicio');
+}
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+</body>
+</html>
